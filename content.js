@@ -1,8 +1,29 @@
 const headerInterval = setInterval(() => {
-  const header = document.querySelector("._3LtPa");
+  const header = document.querySelector("._1R3Un");
 
   if (header) {
     clearInterval(headerInterval);
+
+    const subtractSpeed = (speed, display) => {
+      if (speed > 0) {
+        const newSpeed = speed - 0.25;
+        display.innerHTML = newSpeed.toFixed(2);
+        updateSpeed(newSpeed);
+      }
+    };
+
+    const addSpeed = (speed, display) => {
+      const newSpeed = speed + 0.25;
+      display.innerHTML = newSpeed.toFixed(2);
+      updateSpeed(newSpeed);
+    };
+
+    const updateSpeed = (speed) => {
+      const audios = document.querySelectorAll("audio");
+      if (!audios) return;
+
+      audios.forEach((audio) => (audio.playbackRate = speed));
+    };
 
     const INITIAL_SPEED = 1;
 
@@ -24,5 +45,12 @@ const headerInterval = setInterval(() => {
     addButton.innerHTML = "+";
     addButton.classList.add("speed-button");
     speedContainer.appendChild(addButton);
+
+    subtractButton.addEventListener("click", () =>
+      subtractSpeed(Number(speedDisplay.innerText), speedDisplay)
+    );
+    addButton.addEventListener("click", () =>
+      addSpeed(Number(speedDisplay.innerText), speedDisplay)
+    );
   }
 }, 1000);
